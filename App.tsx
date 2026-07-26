@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import * as WebBrowser from 'expo-web-browser';
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
 
 import { assistants } from './src/data/assistants';
 import { backendSettings } from './src/config/backend';
@@ -49,19 +50,31 @@ export default function App() {
 
 type Assistant = typeof assistants[number];
 
+const assistantLogos: Partial<Record<string, ImageSourcePropType>> = {
+  myassistant: require('./assets/agents/myAssistant.png'),
+  mybenefits: require('./assets/agents/myBenefits.png'),
+  'industry-news': require('./assets/agents/HaydenIndustryNews.png'),
+};
+
 function AssistantCard({ assistant, featured = false }: { assistant: Assistant; featured?: boolean }) {
   const openAssistant = async () => {
     await WebBrowser.openBrowserAsync(assistant.url);
   };
 
+  const logo = assistantLogos[assistant.id];
+
   return (
     <View style={[styles.card, featured && styles.featuredCard]}>
-      <View style={styles.cardTopline}>
-        <Text style={styles.cardBadge}>{assistant.platform}</Text>
-        {featured && <Text style={styles.featuredBadge}>Start here</Text>}
-      </View>
       <View style={styles.cardBody}>
+        {logo ? (
+          <Image source={logo} style={styles.agentLogo} resizeMode="contain" />
+        ) : (
+          <View style={styles.agentLogoFallback}>
+            <Text style={styles.agentLogoFallbackText}>IT</Text>
+          </View>
+        )}
         <View style={styles.cardText}>
+          {featured && <Text style={styles.featuredBadge}>Start here</Text>}
           <Text style={styles.cardTitle}>{assistant.name}</Text>
           <Text style={styles.cardLabel}>{assistant.label}</Text>
           <Text style={styles.cardDescription}>{assistant.description}</Text>
@@ -144,7 +157,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   card: {
-    gap: 8,
     padding: 12,
     borderWidth: 1,
     borderColor: '#d8dce6',
@@ -159,16 +171,28 @@ const styles = StyleSheet.create({
     borderColor: '#cfab7b',
     backgroundColor: '#fffdf8',
   },
-  cardTopline: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    gap: 8,
-  },
   cardBody: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
+  },
+  agentLogo: {
+    width: 46,
+    height: 46,
+  },
+  agentLogoFallback: {
+    width: 46,
+    height: 46,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#cfab7b',
+    backgroundColor: '#fffaf2',
+  },
+  agentLogoFallbackText: {
+    color: '#102a5e',
+    fontSize: 16,
+    fontWeight: '900',
   },
   cardText: {
     flex: 1,
@@ -179,16 +203,8 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
   },
-  cardBadge: {
-    color: '#ffffff',
-    fontSize: 11,
-    fontWeight: '800',
-    backgroundColor: '#102a5e',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    textTransform: 'uppercase',
-  },
   featuredBadge: {
+    alignSelf: 'flex-start',
     color: '#102a5e',
     fontSize: 11,
     fontWeight: '800',
