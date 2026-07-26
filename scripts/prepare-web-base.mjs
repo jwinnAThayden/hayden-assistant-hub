@@ -7,6 +7,53 @@ const distDir = 'dist';
 const indexPath = join(distDir, 'index.html');
 const notFoundPath = join(distDir, '404.html');
 const noJekyllPath = join(distDir, '.nojekyll');
+const webIcon192Path = join(distDir, 'web-icon-192.png');
+const webIcon512Path = join(distDir, 'web-icon-512.png');
+const manifestPath = join(distDir, 'site.webmanifest');
+
+function publicPath(path) {
+  return `${basePath}/${path}`;
+}
+
+function addInstallIconLinks(html) {
+  const installLinks = [
+    `<link rel="apple-touch-icon" sizes="192x192" href="${publicPath('web-icon-192.png')}" />`,
+    `<link rel="manifest" href="${publicPath('site.webmanifest')}" />`,
+  ].join('\n  ');
+
+  return html.replace('</head>', `  ${installLinks}\n</head>`);
+}
+
+function writeWebManifest() {
+  copyFileSync('assets/web-icon-192.png', webIcon192Path);
+  copyFileSync('assets/web-icon-512.png', webIcon512Path);
+
+  const manifest = {
+    name: 'Hayden Assistant Hub',
+    short_name: 'Hayden Assistants',
+    start_url: publicPath(''),
+    scope: publicPath(''),
+    display: 'standalone',
+    background_color: '#f7f4ed',
+    theme_color: '#102a5e',
+    icons: [
+      {
+        src: publicPath('web-icon-192.png'),
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'any maskable',
+      },
+      {
+        src: publicPath('web-icon-512.png'),
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'any maskable',
+      },
+    ],
+  };
+
+  writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+}
 
 function rewriteAbsoluteAssetUrls(filePath) {
   const source = readFileSync(filePath, 'utf8');
@@ -55,10 +102,11 @@ if (!existsSync(indexPath)) {
   throw new Error('dist/index.html was not found. Run the web export before preparing static hosting output.');
 }
 
-const indexHtml = readFileSync(indexPath, 'utf8')
+const indexHtml = addInstallIconLinks(readFileSync(indexPath, 'utf8')
   .replaceAll('href="/', `href="${basePath}/`)
-  .replaceAll('src="/', `src="${basePath}/`);
+  .replaceAll('src="/', `src="${basePath}/`));
 
+writeWebManifest();
 writeFileSync(indexPath, indexHtml);
 rewriteGeneratedFiles(distDir);
 writeFileSync(indexPath, versionGeneratedReferences(readFileSync(indexPath, 'utf8')));
