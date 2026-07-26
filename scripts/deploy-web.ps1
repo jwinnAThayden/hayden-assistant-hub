@@ -3,6 +3,7 @@ param(
   [string]$RemoteUser = "www-data",
   [Parameter(Mandatory = $true)]
   [string]$RemotePath,
+  [string]$PublicBasePath = "",
   [switch]$SkipBuild
 )
 
@@ -24,6 +25,10 @@ if (-not (Get-Command scp -ErrorAction SilentlyContinue)) {
 if (-not $SkipBuild) {
   npm run typecheck
   npm run build:web
+}
+
+if ($PublicBasePath) {
+  node .\scripts\prepare-web-base.mjs $PublicBasePath
 }
 
 if (-not (Test-Path -Path "dist\index.html" -PathType Leaf)) {

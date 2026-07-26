@@ -6,6 +6,8 @@ import { assistants } from './src/data/assistants';
 import { backendSettings } from './src/config/backend';
 
 export default function App() {
+  const showBackendPanel = backendSettings.provider !== 'none';
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
@@ -18,10 +20,12 @@ export default function App() {
           </Text>
         </View>
 
-        <View style={styles.backendPanel}>
-          <Text style={styles.panelLabel}>Backend services</Text>
-          <Text style={styles.panelText}>{backendSettings.summary}</Text>
-        </View>
+        {showBackendPanel && (
+          <View style={styles.backendPanel}>
+            <Text style={styles.panelLabel}>Backend services</Text>
+            <Text style={styles.panelText}>{backendSettings.summary}</Text>
+          </View>
+        )}
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>General assistant</Text>
