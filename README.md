@@ -58,16 +58,22 @@ For a dedicated path such as `https://hbccloudweb1.haydenbeverage.com/assistant-
 
 ### Deploy To GitHub Pages
 
-GitHub Pages serves this repository from a subpath, so use the GitHub Pages build command instead of the generic web build:
+GitHub Pages is configured for the company subdomain `assistants.haydenbeverage.com`. Use the GitHub Pages build command instead of the generic web build:
 
 ```powershell
 npm run build:github-pages
 ```
 
-The repository includes a GitHub Actions workflow that publishes `dist/` when `main` is pushed. In GitHub, open **Settings > Pages** and set the source to **GitHub Actions**. The public mobile URL will be:
+The build emits `dist/CNAME` and prepares the app for the domain root instead of the repository subpath. The DNS record should be:
 
 ```text
-https://jwinnathayden.github.io/hayden-assistant-hub/
+assistants.haydenbeverage.com CNAME jwinnathayden.github.io
+```
+
+The repository includes a GitHub Actions workflow that publishes `dist/` when `main` is pushed. In GitHub, open **Settings > Pages**, set the custom domain to `assistants.haydenbeverage.com`, set the source to **GitHub Actions**, and enable **Enforce HTTPS** after GitHub provisions the certificate. The public mobile URL will be:
+
+```text
+https://assistants.haydenbeverage.com/
 ```
 
 ## Backend Configuration
