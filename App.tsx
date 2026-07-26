@@ -53,6 +53,7 @@ type Assistant = typeof assistants[number];
 const assistantLogos: Partial<Record<string, ImageSourcePropType>> = {
   myassistant: require('./assets/agents/myAssistant.png'),
   mybenefits: require('./assets/agents/myBenefits.png'),
+  mysupport: require('./assets/agents/ServiceDeskAgentMainIcon.png'),
   'industry-news': require('./assets/agents/HaydenIndustryNews.png'),
 };
 
