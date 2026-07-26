@@ -49,6 +49,9 @@
 - [x] Confirm the remote web root or application subdirectory: `/var/www/myAssistant/mobile`.
 - [x] Publish `dist/` to the selected static host.
 - [ ] Keep Metro, LAN mode, and tunnel mode limited to development only.
+- [x] Add GitHub Pages build support for public mobile access.
+- [ ] Enable GitHub Pages source: GitHub Actions.
+- [ ] Verify GitHub Pages URL on mobile.
 
 ## Telemetry And Support
 

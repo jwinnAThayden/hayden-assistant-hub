@@ -56,6 +56,20 @@ The script connects as `www-data@hbccloudweb1.haydenbeverage.com`, runs `npm run
 
 For a dedicated path such as `https://hbccloudweb1.haydenbeverage.com/assistant-hub/`, configure the web server root or alias to the same remote path. If the app is served from a subpath and links or assets fail to load, switch to a dedicated hostname or configure the Expo web base path before building.
 
+### Deploy To GitHub Pages
+
+GitHub Pages serves this repository from a subpath, so use the GitHub Pages build command instead of the generic web build:
+
+```powershell
+npm run build:github-pages
+```
+
+The repository includes a GitHub Actions workflow that publishes `dist/` when `main` is pushed. In GitHub, open **Settings > Pages** and set the source to **GitHub Actions**. The public mobile URL will be:
+
+```text
+https://jwinnathayden.github.io/hayden-assistant-hub/
+```
+
 ## Backend Configuration
 
 Copy `.env.example` to `.env.local` and choose one backend provider.
