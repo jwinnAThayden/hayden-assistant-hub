@@ -10,6 +10,13 @@ export type Assistant = {
 };
 
 const sharePointAgentRoot = 'https://haydenbeverage.sharepoint.com/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents';
+const sharePointAgentParent = '/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents';
+
+function getSharePointAgentUrl(agentFileName: string) {
+  const agentPath = `${sharePointAgentParent}/${encodeURIComponent(agentFileName)}`;
+
+  return `${sharePointAgentRoot}?id=${agentPath}&parent=${sharePointAgentParent}`;
+}
 
 export const assistants: Assistant[] = [
   {
@@ -18,7 +25,7 @@ export const assistants: Assistant[] = [
     label: 'Coordinating assistant',
     description: 'Start here for general help when you are not sure which Hayden assistant to use.',
     platform: 'Microsoft',
-    url: `${sharePointAgentRoot}?id=/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents/myAssistant_crbdf_myAssistant.agent&parent=/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents`,
+    url: getSharePointAgentUrl('myAssistant_crbdf_myAssistant.agent'),
     helpAreas: [
       'Ask a broad question and get routed toward the right assistant.',
       'Use one starting point for benefits, support, news, and future tools.',
@@ -32,7 +39,7 @@ export const assistants: Assistant[] = [
     label: 'Benefits assistant',
     description: 'Use this assistant for benefits, enrollment, coverage, and HR resource guidance.',
     platform: 'Microsoft',
-    url: `${sharePointAgentRoot}?id=/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents/Hayden%20Benefits%20Assistant_crbdf_employeeBenefitsAssistant.agent&parent=/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents`,
+    url: getSharePointAgentUrl('myBenefits_crbdf_employeeBenefitsAssistant.agent'),
     helpAreas: [
       'Plan details, coverage questions, and where to start.',
       'Open enrollment timing, decisions, and next steps.',
@@ -58,7 +65,7 @@ export const assistants: Assistant[] = [
     label: 'Industry news assistant',
     description: 'Use this assistant for beverage industry updates, market news, and relevant headlines.',
     platform: 'Microsoft',
-    url: `${sharePointAgentRoot}?id=/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents/Industry%20News%20Assistant_crbdf_sharePointSiteAssistant.agent&parent=/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents`,
+    url: getSharePointAgentUrl('Industry News Assistant_crbdf_sharePointSiteAssistant.agent'),
     helpAreas: [
       'Track industry trends, suppliers, and beverage category news.',
       'Surface relevant updates for Hayden teams and planning.',
