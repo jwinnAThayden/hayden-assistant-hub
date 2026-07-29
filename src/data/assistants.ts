@@ -61,7 +61,7 @@ export const assistants: Assistant[] = [
   },
   {
     id: 'industry-news',
-    name: 'Hayden Industry News',
+    name: 'myIndustry',
     label: 'Industry news assistant',
     description: 'Use this assistant for beverage industry updates, market news, and relevant headlines.',
     platform: 'Microsoft',
