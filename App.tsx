@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as WebBrowser from 'expo-web-browser';
-import { Image, Linking, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 
 import { assistants } from './src/data/assistants';
@@ -58,15 +58,6 @@ const assistantLogos: Partial<Record<string, ImageSourcePropType>> = {
 };
 
 function AssistantCard({ assistant, featured = false }: { assistant: Assistant; featured?: boolean }) {
-  const openAssistant = async () => {
-    if (Platform.OS === 'web') {
-      window.open(assistant.url, '_blank', 'noopener,noreferrer');
-      return;
-    }
-
-    await Linking.openURL(assistant.url);
-  };
-
   const openAssistantInAppBrowser = async () => {
     await WebBrowser.openBrowserAsync(assistant.url);
   };
@@ -89,14 +80,26 @@ function AssistantCard({ assistant, featured = false }: { assistant: Assistant; 
           <Text style={styles.cardLabel}>{assistant.label}</Text>
           <Text style={styles.cardDescription}>{assistant.description}</Text>
         </View>
-        <Pressable
-          style={styles.button}
-          onPress={Platform.OS === 'web' ? openAssistant : openAssistantInAppBrowser}
-          accessibilityRole="button"
-          accessibilityLabel={`Open ${assistant.name}`}
-        >
-          <Text style={styles.buttonText}>Open</Text>
-        </Pressable>
+        {Platform.OS === 'web' ? (
+          <a
+            href={assistant.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.webButton}
+            aria-label={`Open ${assistant.name}`}
+          >
+            Open
+          </a>
+        ) : (
+          <Pressable
+            style={styles.button}
+            onPress={openAssistantInAppBrowser}
+            accessibilityRole="button"
+            accessibilityLabel={`Open ${assistant.name}`}
+          >
+            <Text style={styles.buttonText}>Open</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
@@ -246,5 +249,19 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 14,
     fontWeight: '900',
+  },
+  webButton: {
+    minWidth: 72,
+    minHeight: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#102a5e',
+    paddingLeft: 14,
+    paddingRight: 14,
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: '900',
+    textDecorationLine: 'none',
   },
 });
