@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as WebBrowser from 'expo-web-browser';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Linking, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 
 import { assistants } from './src/data/assistants';
@@ -59,6 +59,15 @@ const assistantLogos: Partial<Record<string, ImageSourcePropType>> = {
 
 function AssistantCard({ assistant, featured = false }: { assistant: Assistant; featured?: boolean }) {
   const openAssistant = async () => {
+    if (Platform.OS === 'web') {
+      window.open(assistant.url, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    await Linking.openURL(assistant.url);
+  };
+
+  const openAssistantInAppBrowser = async () => {
     await WebBrowser.openBrowserAsync(assistant.url);
   };
 
@@ -82,7 +91,7 @@ function AssistantCard({ assistant, featured = false }: { assistant: Assistant; 
         </View>
         <Pressable
           style={styles.button}
-          onPress={openAssistant}
+          onPress={Platform.OS === 'web' ? openAssistant : openAssistantInAppBrowser}
           accessibilityRole="button"
           accessibilityLabel={`Open ${assistant.name}`}
         >
