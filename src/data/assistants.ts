@@ -1,3 +1,5 @@
+import { getAssistantLink } from '../config/assistantLinks';
+
 export type Assistant = {
   id: string;
   name: string;
@@ -9,15 +11,6 @@ export type Assistant = {
   featured?: boolean;
 };
 
-const sharePointAgentRoot = 'https://haydenbeverage.sharepoint.com/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents';
-const sharePointAgentParent = '/sites/HaydenAgentsTestSite/Shared%20Documents/Copilot%20Studio%20Agents';
-
-function getSharePointAgentUrl(agentFileName: string) {
-  const agentPath = `${sharePointAgentParent}/${encodeURIComponent(agentFileName)}`;
-
-  return `${sharePointAgentRoot}?id=${agentPath}&parent=${sharePointAgentParent}`;
-}
-
 export const assistants: Assistant[] = [
   {
     id: 'myassistant',
@@ -25,7 +18,7 @@ export const assistants: Assistant[] = [
     label: 'Coordinating assistant',
     description: 'Start here for general help when you are not sure which Hayden assistant to use.',
     platform: 'Microsoft',
-    url: getSharePointAgentUrl('myAssistant_crbdf_myAssistant.agent'),
+    url: getAssistantLink('myassistant'),
     helpAreas: [
       'Ask a broad question and get routed toward the right assistant.',
       'Use one starting point for benefits, support, news, and future tools.',
@@ -39,7 +32,7 @@ export const assistants: Assistant[] = [
     label: 'Benefits assistant',
     description: 'Use this assistant for benefits, enrollment, coverage, and HR resource guidance.',
     platform: 'Microsoft',
-    url: getSharePointAgentUrl('myBenefits_crbdf_employeeBenefitsAssistant.agent'),
+    url: getAssistantLink('mybenefits'),
     helpAreas: [
       'Plan details, coverage questions, and where to start.',
       'Open enrollment timing, decisions, and next steps.',
@@ -52,7 +45,7 @@ export const assistants: Assistant[] = [
     label: 'IT support assistant',
     description: 'Start here for everyday technology help, ticket updates, and fast routing to the right support team.',
     platform: 'Atlassian',
-    url: 'https://haydennation.atlassian.net/servicedesk/customer/portal/13',
+    url: getAssistantLink('mysupport'),
     helpAreas: [
       'Reset passwords, unlock accounts, and get access help.',
       'Request software, hardware, and permission changes.',
@@ -65,7 +58,7 @@ export const assistants: Assistant[] = [
     label: 'Industry news assistant',
     description: 'Use this assistant for beverage industry updates, market news, and relevant headlines.',
     platform: 'Microsoft',
-    url: getSharePointAgentUrl('Industry News Assistant_crbdf_sharePointSiteAssistant.agent'),
+    url: getAssistantLink('industry-news'),
     helpAreas: [
       'Track industry trends, suppliers, and beverage category news.',
       'Surface relevant updates for Hayden teams and planning.',

@@ -99,6 +99,12 @@ EXPO_PUBLIC_BACKEND_PROVIDER=azure
 EXPO_PUBLIC_AZURE_API_BASE_URL=https://your-api.example.com
 ```
 
+Assistant destinations are controlled in [src/config/assistantLinks.ts](C:/Users/jwinn/OneDrive%20-%20Hayden%20Beverage/Documents/ps1/AgentTools/src/config/assistantLinks.ts:1). That file stores the default SharePoint and Jira targets used by the app, including the `HaydenAgentsLaunchSite/Shared Documents/Copilot Studio Agents` pattern for Microsoft agents.
+
+If assistant destinations change, update that control file for the repo defaults and use the exported `EXPO_PUBLIC_*` variables for environment-specific overrides. The app supports `EXPO_PUBLIC_SHAREPOINT_AGENT_ROOT_URL`, `EXPO_PUBLIC_MYASSISTANT_URL`, `EXPO_PUBLIC_MYBENEFITS_URL`, `EXPO_PUBLIC_MYSUPPORT_URL`, and `EXPO_PUBLIC_INDUSTRY_NEWS_URL`.
+
+For GitHub Pages builds, set those values as GitHub repository variables so `https://assistants.haydenbeverage.com/` can follow new target paths without another code change.
+
 ## GitHub Source Control
 
 This project is ready to be pushed to GitHub from the workspace repository:

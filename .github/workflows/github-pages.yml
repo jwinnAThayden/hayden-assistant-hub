@@ -35,6 +35,12 @@ jobs:
         run: npm run typecheck
 
       - name: Build GitHub Pages site
+        env:
+          EXPO_PUBLIC_SHAREPOINT_AGENT_ROOT_URL: ${{ vars.EXPO_PUBLIC_SHAREPOINT_AGENT_ROOT_URL }}
+          EXPO_PUBLIC_MYASSISTANT_URL: ${{ vars.EXPO_PUBLIC_MYASSISTANT_URL }}
+          EXPO_PUBLIC_MYBENEFITS_URL: ${{ vars.EXPO_PUBLIC_MYBENEFITS_URL }}
+          EXPO_PUBLIC_MYSUPPORT_URL: ${{ vars.EXPO_PUBLIC_MYSUPPORT_URL }}
+          EXPO_PUBLIC_INDUSTRY_NEWS_URL: ${{ vars.EXPO_PUBLIC_INDUSTRY_NEWS_URL }}
         run: npm run build:github-pages
 
       - name: Configure Pages
