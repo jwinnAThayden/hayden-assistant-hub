@@ -7,8 +7,8 @@ type AssistantLinkConfig = {
   notes?: string;
 };
 
-const launchSiteAgentLibraryRoot = process.env.EXPO_PUBLIC_SHAREPOINT_AGENT_ROOT_URL
-  ?? 'https://haydenbeverage.sharepoint.com/Shared%20Documents';
+const launchSiteAgentLibraryRoot = process.env.EXPO_PUBLIC_SHAREPOINT_AGENT_ROOT_URL?.trim()
+  || 'https://haydenbeverage.sharepoint.com/Shared%20Documents';
 const launchSiteAgentLibraryPath = '/Shared%20Documents/Copilot%20Studio%20Agents';
 
 // Verified August 11, 2026 by opening each URL in a fresh browser tab: this
